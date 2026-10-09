@@ -1,0 +1,24 @@
+{
+  "name": "Portal Layanan Digital RW 01 Bencongan Indah",
+  "short_name": "Portal RW01",
+  "description": "Aplikasi Layanan Digital & Informasi Warga RW 01 Bencongan Indah, Kelapa Dua, Tangerang",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5fbf5",
+  "theme_color": "#006948",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://lh3.googleusercontent.com/d/14JAFpvrXk_uCUmmjmVbqhGciZdO521gF",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://lh3.googleusercontent.com/d/14JAFpvrXk_uCUmmjmVbqhGciZdO521gF",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

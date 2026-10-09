@@ -14,7 +14,8 @@ const CONFIG = {
     UMKM: ["asset/umkm 1.jpg", "asset/umkm 2.jpg", "asset/umkm 3.jpg"],
     BACKGROUND: "asset/background.jpeg",
     VISI_MISI: "asset/image 1.jpeg"
-  }
+  },
+  ADMIN_WA_NUMBER: "6281234567801" // Nomor Sekretariat / Pengurus RW 01
 };
 
 /**
@@ -44,11 +45,67 @@ function formatGoogleDriveImageUrl(rawUrl, fallbackIndex = 0) {
   }
 
   if (fileId) {
-    // Return primary direct CDN URL format
     return `https://lh3.googleusercontent.com/d/${fileId}`;
   }
 
   return rawUrl;
+}
+
+/**
+ * Helper: Mask Sensitive NIK Data (Shows only first 4 and last 4 digits)
+ * Example: 3276********0001
+ */
+function maskNik(nik) {
+  if (!nik) return '-';
+  const str = String(nik).trim();
+  if (str.length < 8) return str;
+  const start = str.slice(0, 4);
+  const end = str.slice(-4);
+  const maskedLength = Math.max(str.length - 8, 4);
+  return `${start}${'*'.repeat(maskedLength)}${end}`;
+}
+
+/**
+ * Helper: Mask Phone/WA Number
+ * Example: 0812****5678 or 62812****5678
+ */
+function maskPhone(phone) {
+  if (!phone) return '-';
+  const str = String(phone).replace(/[^0-9]/g, '');
+  if (str.length < 7) return str;
+  const start = str.slice(0, 4);
+  const end = str.slice(-4);
+  return `${start}****${end}`;
+}
+
+/**
+ * Helper: Format Currency to Indonesian Rupiah (Rp)
+ */
+function formatRupiah(amount) {
+  const num = parseInt(amount, 10);
+  if (isNaN(num)) return 'Rp 0';
+  return 'Rp ' + num.toLocaleString('id-ID');
+}
+
+/**
+ * Helper: Generates Direct WhatsApp Confirmation URL for Resident Ticket
+ */
+function buildWhatsAppConfirmUrl({ ticket, name, rt, type, title, status }) {
+  const waTarget = CONFIG.ADMIN_WA_NUMBER;
+  const messageText = 
+`Halo Pengurus RW 01 Bencongan Indah,
+
+Saya ingin mengonfirmasi pengajuan/laporan digital yang baru saya kirim melalui Portal RW 01:
+
+📌 *No. Tiket*: ${ticket}
+👤 *Nama Warga*: ${name}
+🏡 *RT Domisili*: ${rt}
+📑 *Perihal*: ${type || title}
+⚡ *Status*: ${status || 'PENDING'}
+
+Mohon dapat diproses. Terima kasih!`;
+
+  return `https://api.whatsapp.com/send?phone=${waTarget}&text=${encodeURIComponent(messageText)}`;
 }
 
 /**

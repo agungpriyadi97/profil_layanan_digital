@@ -69,3 +69,18 @@ class RTModel {
     return await ApiModel.call('getDirektoriRT');
   }
 }
+
+/**
+ * ==============================================================================
+ * MODEL: KAS MODEL (js/models/KasModel.js)
+ * ==============================================================================
+ */
+class KasModel {
+  static async fetch() {
+    return await ApiModel.call('getKasRW');
+  }
+
+  static async update(payload) {
+    return await ApiModel.call('updateKasRW', payload);
+  }
+}

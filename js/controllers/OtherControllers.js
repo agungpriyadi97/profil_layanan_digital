@@ -39,8 +39,18 @@ class SuratController {
     if (res.success) {
       showToast(res.message, 'success');
       document.getElementById('form-surat').reset();
-      document.getElementById('track-nik').value = res.data ? res.data.id_pengajuan : nik;
+      const ticketId = res.data ? res.data.id_pengajuan : 'SRT-PENDING';
+      document.getElementById('track-nik').value = ticketId;
       SuratController.handleTrack();
+
+      // Open Automatic WhatsApp Confirmation Modal
+      AppController.openWaSuccessModal({
+        ticket: ticketId,
+        name: payload.nama_pemohon,
+        rt: payload.rt_domisili,
+        type: payload.jenis_surat,
+        status: 'PENDING'
+      });
     } else {
       showToast(res.message, 'error');
     }
@@ -73,12 +83,16 @@ class LaporController {
     btn.disabled = true;
     btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-lg">sync</span> Mengunggah Foto & Mengirim...`;
 
+    const isAnon = document.getElementById('lapor-anonim').checked;
+    const rawNama = document.getElementById('lapor-nama').value;
+    const namaPelapor = isAnon ? 'Warga (Anonim)' : (rawNama || 'Warga');
+
     const fileInput = document.getElementById('lapor-file');
     const { file_data, file_name } = await ApiModel.readFileAsBase64(fileInput);
 
     const payload = {
-      nama_pelapor: document.getElementById('lapor-nama').value,
-      is_anonim: document.getElementById('lapor-anonim').checked,
+      nama_pelapor: namaPelapor,
+      is_anonim: isAnon,
       rt_pelapor: document.getElementById('lapor-rt').value,
       kategori: document.getElementById('lapor-kategori').value,
       lokasi_kejadian: document.getElementById('lapor-lokasi').value,
@@ -95,6 +109,17 @@ class LaporController {
       showToast(res.message, 'success');
       document.getElementById('form-lapor').reset();
       LaporController.loadPublicList();
+
+      const ticketId = res.data ? res.data.id_laporan : 'LPR-PENDING';
+
+      // Open Automatic WhatsApp Confirmation Modal
+      AppController.openWaSuccessModal({
+        ticket: ticketId,
+        name: isAnon ? 'Warga (Anonim)' : payload.nama_pelapor,
+        rt: payload.rt_pelapor,
+        type: `Laporan ${payload.kategori}`,
+        status: 'PENDING'
+      });
     } else {
       showToast(res.message, 'error');
     }
@@ -190,17 +215,20 @@ class AdminController {
               }">${item.status}</span>
             </td>
             <td class="p-3 text-right">
-              ${isFinal ? `
-                <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 border border-slate-200/80 px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-xs select-none">
-                  <span class="material-symbols-outlined text-xs">lock</span> Selesai
-                </span>
-              ` : `
-                <div class="flex justify-end gap-1.5">
+              <div class="flex justify-end items-center gap-1.5">
+                <button onclick="AdminController.openPrintSurat('${item.id_pengajuan}')" class="bg-primary hover:bg-primary-container active:scale-95 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-xs flex items-center gap-1 transition-all duration-200 cursor-pointer">
+                  <span class="material-symbols-outlined text-xs">print</span> Cetak
+                </button>
+                ${isFinal ? `
+                  <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 border border-slate-200/80 px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-xs select-none">
+                    <span class="material-symbols-outlined text-xs">lock</span> Selesai
+                  </span>
+                ` : `
                   <button ${item.status === 'DIPROSES' ? 'disabled' : ''} onclick="AdminController.updateSuratStatus('${item.id_pengajuan}', 'DIPROSES')" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-sm hover:shadow-blue-600/30 transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:shadow-none">Proses</button>
                   <button onclick="AdminController.updateSuratStatus('${item.id_pengajuan}', 'SELESAI')" class="bg-emerald-700 hover:bg-emerald-800 active:scale-95 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-sm hover:shadow-emerald-700/30 transition-all duration-200 cursor-pointer">Selesai</button>
                   <button onclick="AdminController.updateSuratStatus('${item.id_pengajuan}', 'DITOLAK')" class="bg-rose-700 hover:bg-rose-800 active:scale-95 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-sm hover:shadow-rose-700/30 transition-all duration-200 cursor-pointer">Tolak</button>
-                </div>
-              `}
+                `}
+              </div>
             </td>
           </tr>
         `;
@@ -228,6 +256,35 @@ class AdminController {
     } else {
       showToast(res.message, 'error');
     }
+  }
+
+  static async openPrintSurat(id) {
+    const res = await SuratModel.fetchAllAdmin();
+    if (res.success && res.data) {
+      const item = res.data.find(x => x.id_pengajuan === id);
+      if (item) {
+        PrintView.renderSurat(item);
+        const modal = document.getElementById('modal-print-surat');
+        if (modal) {
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+        }
+      } else {
+        showToast('Data pengajuan tidak ditemukan', 'error');
+      }
+    }
+  }
+
+  static closePrintModal() {
+    const modal = document.getElementById('modal-print-surat');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  }
+
+  static executePrintSurat() {
+    window.print();
   }
 
   static async loadLaporTable() {
@@ -413,6 +470,7 @@ class AppController {
   static init() {
     AppController.switchTab('beranda');
     AppController.loadAgendaBeranda();
+    AppController.loadKasRW();
     AppController.loadDirektoriRT();
     UMKMController.init();
 
@@ -451,6 +509,7 @@ class AppController {
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
+    if (tabId === 'beranda') AppController.loadKasRW();
     if (tabId === 'direktori') AppController.loadDirektoriRT();
     if (tabId === 'lapor') LaporController.loadPublicList();
     if (tabId === 'umkm') UMKMController.loadCatalog();
@@ -461,6 +520,13 @@ class AppController {
     const res = await AgendaModel.fetchAll();
     if (res.success && res.data) {
       AgendaView.render('agenda-container', res.data);
+    }
+  }
+
+  static async loadKasRW() {
+    const res = await KasModel.fetch();
+    if (res.success && res.data) {
+      KasView.render('kas-rw-container', res.data);
     }
   }
 
@@ -492,6 +558,38 @@ class AppController {
   static closeEmergencyModal() {
     const modal = document.getElementById('modal-emergency');
     if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+  }
+
+  static openWaSuccessModal({ ticket, name, rt, type, status }) {
+    const modal = document.getElementById('modal-wa-success');
+    if (!modal) return;
+
+    const elemTicket = document.getElementById('wa-success-ticket');
+    const elemName = document.getElementById('wa-success-name');
+    const elemRt = document.getElementById('wa-success-rt');
+    const elemType = document.getElementById('wa-success-type');
+
+    if (elemTicket) elemTicket.innerText = ticket;
+    if (elemName) elemName.innerText = name;
+    if (elemRt) elemRt.innerText = rt;
+    if (elemType) elemType.innerText = type;
+
+    const waBtn = document.getElementById('btn-wa-confirm-modal');
+    if (waBtn) {
+      const url = buildWhatsAppConfirmUrl({ ticket, name, rt, type, status: status || 'PENDING' });
+      waBtn.href = url;
+    }
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  static closeWaSuccessModal() {
+    const modal = document.getElementById('modal-wa-success');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
   }
 
   static toggleAnonimInput(checkbox) {

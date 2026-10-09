@@ -151,3 +151,43 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   border-color: var(--color-primary);
 }
+
+/* 9. Print Stylesheet (@media print) */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  #modal-print-surat,
+  #modal-print-surat * {
+    visibility: visible;
+  }
+  
+  #modal-print-surat {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+  
+  header, footer, nav, #toast-container, .tab-content {
+    display: none !important;
+  }
+
+  .print-page {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 20px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}

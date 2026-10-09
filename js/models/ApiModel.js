@@ -82,6 +82,18 @@ class ApiModel {
       };
     }
 
+    if (action === 'getKasRW') {
+      return {
+        success: true,
+        data: {
+          saldo_kas: 18450000,
+          pemasukan_bulan_ini: 4200000,
+          pengeluaran_bulan_ini: 1750000,
+          update_terakhir: "Oktober 2026"
+        }
+      };
+    }
+
     if (action === 'adminLogin') {
       if (payload.username === 'admin' && payload.password === 'admin123') {
         return {

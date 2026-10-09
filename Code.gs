@@ -11,7 +11,8 @@ const SHEET_NAMES = {
   LAPOR_WARGA: "Lapor_Warga",
   PENGUMUMAN_AGENDA: "Pengumuman_Agenda",
   UMKM_WARGA: "UMKM_Warga",
-  USERS_ADMIN: "Users_Admin"
+  USERS_ADMIN: "Users_Admin",
+  KAS_RW: "Kas_RW"
 };
 
 const DRIVE_FOLDER_NAME = "BERKAS_RW01_PORTAL";
@@ -156,6 +157,11 @@ function handleApiRequest(action, payload) {
         return submitUMKM(payload);
       case "updateUMKMStatus":
         return updateUMKMStatus(payload);
+
+      case "getKasRW":
+        return getKasRW();
+      case "updateKasRW":
+        return updateKasRW(payload);
 
       case "loginAdmin":
         return loginAdmin(payload);
@@ -574,6 +580,42 @@ function loginAdmin(payload) {
   return { success: false, message: "Username atau password salah." };
 }
 
+// ------------------- MODUL KAS RW -------------------
+function getKasRW() {
+  const data = getSheetData(SHEET_NAMES.KAS_RW);
+  if (data.length > 0) {
+    return { success: true, data: data[0] };
+  }
+  return {
+    success: true,
+    data: {
+      saldo_kas: 18450000,
+      pemasukan_bulan_ini: 4200000,
+      pengeluaran_bulan_ini: 1750000,
+      update_terakhir: "Oktober 2026"
+    }
+  };
+}
+
+function updateKasRW(payload) {
+  const sheet = getSheet(SHEET_NAMES.KAS_RW);
+  const data = sheet.getDataRange().getValues();
+  if (data.length > 1) {
+    if (payload.saldo_kas !== undefined) sheet.getRange(2, 1).setValue(payload.saldo_kas);
+    if (payload.pemasukan_bulan_ini !== undefined) sheet.getRange(2, 2).setValue(payload.pemasukan_bulan_ini);
+    if (payload.pengeluaran_bulan_ini !== undefined) sheet.getRange(2, 3).setValue(payload.pengeluaran_bulan_ini);
+    if (payload.update_terakhir !== undefined) sheet.getRange(2, 4).setValue(payload.update_terakhir);
+  } else {
+    sheet.appendRow([
+      payload.saldo_kas || 18450000,
+      payload.pemasukan_bulan_ini || 4200000,
+      payload.pengeluaran_bulan_ini || 1750000,
+      payload.update_terakhir || "Oktober 2026"
+    ]);
+  }
+  return { success: true, message: "Data kas RW berhasil diperbarui." };
+}
+
 // ------------------- SETUP DATABASE -------------------
 function setupDatabase() {
   const ss = getActiveSpreadsheet();
@@ -620,6 +662,12 @@ function setupDatabase() {
   if (sheetAdmin.getLastRow() === 0) {
     sheetAdmin.appendRow(["username", "password_hash", "nama_pengurus", "jabatan", "role"]);
     sheetAdmin.appendRow(["admin", hashPassword("admin123"), "Bpk. H. Sudirman", "Ketua RW 01", "SUPER_ADMIN"]);
+  }
+
+  let sheetKas = getOrCreateSheet(ss, SHEET_NAMES.KAS_RW);
+  if (sheetKas.getLastRow() === 0) {
+    sheetKas.appendRow(["saldo_kas", "pemasukan_bulan_ini", "pengeluaran_bulan_ini", "update_terakhir"]);
+    sheetKas.appendRow([18450000, 4200000, 1750000, "Oktober 2026"]);
   }
 
   return { success: true, message: "Database dan tabel siap digunakan." };

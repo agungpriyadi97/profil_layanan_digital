@@ -4,6 +4,11 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Portal Layanan Digital RW 01 Bencongan Indah</title>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#006948"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="apple-mobile-web-app-title" content="Portal RW 01"/>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
@@ -201,6 +206,9 @@
           </div>
         </div>
       </div>
+
+      <!-- Widget Transparansi Kas RW -->
+      <div id="kas-rw-container" class="w-full"></div>
 
       <!-- Agenda & Pengumuman Terkini Section -->
       <div class="flex flex-col gap-4">
@@ -824,6 +832,55 @@
     </div>
   </div>
 
+  <!-- MODAL: SUCCESS WHATSAPP CONFIRMATION -->
+  <div id="modal-wa-success" class="fixed inset-0 bg-black/60 z-[100] hidden items-center justify-center p-4">
+    <div class="bg-surface-container-lowest rounded-2xl max-w-md w-full p-6 flex flex-col gap-4 shadow-2xl relative" onclick="event.stopPropagation()">
+      <div class="flex justify-between items-center border-b border-outline-variant/60 pb-3">
+        <h3 class="font-bold text-primary text-base flex items-center gap-2">
+          <span class="material-symbols-outlined text-emerald-600">check_circle</span> Permohonan Berhasil Dikirim
+        </h3>
+        <button onclick="AppController.closeWaSuccessModal()" class="text-on-surface-variant"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="flex flex-col gap-3 text-xs">
+        <p class="text-on-surface leading-relaxed">Permohonan/laporan Anda telah tersimpan dengan rincian berikut:</p>
+        <div class="bg-surface p-3.5 rounded-xl border border-outline-variant/50 flex flex-col gap-1.5 font-mono text-[11px]">
+          <p><strong>No. Tiket:</strong> <span id="wa-success-ticket" class="text-primary font-bold">SRT-202610-001</span></p>
+          <p><strong>Nama Warga:</strong> <span id="wa-success-name">Ahmad</span></p>
+          <p><strong>Asal RT:</strong> <span id="wa-success-rt">RT 01</span></p>
+          <p><strong>Perihal:</strong> <span id="wa-success-type">Surat Pengantar</span></p>
+        </div>
+        <p class="text-on-surface-variant text-[11px]">Untuk mempercepat proses verifikasi oleh pengurus, silakan lakukan konfirmasi langsung via WhatsApp:</p>
+        <div class="flex flex-col gap-2 mt-2">
+          <a id="btn-wa-confirm-modal" href="#" target="_blank" class="btn-wa-style">
+            <span class="material-symbols-outlined icon-sm">chat</span>
+            Konfirmasi ke Pengurus via WhatsApp
+          </a>
+          <button type="button" onclick="AppController.closeWaSuccessModal()" class="w-full py-2 text-center text-on-surface-variant font-semibold hover:underline">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PRINT PREVIEW SURAT PENGANTAR -->
+  <div id="modal-print-surat" class="fixed inset-0 bg-black/70 z-[110] hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-3xl w-full p-6 flex flex-col gap-4 shadow-2xl relative my-auto max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <div class="flex justify-between items-center border-b border-gray-200 pb-3 no-print">
+        <h3 class="font-bold text-gray-800 text-base flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">print</span> Pratinjau Cetak Surat Resmi
+        </h3>
+        <div class="flex items-center gap-2">
+          <button onclick="AdminController.executePrintSurat()" class="bg-primary hover:bg-primary-container text-white px-4 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm cursor-pointer">
+            <span class="material-symbols-outlined text-sm">print</span> Cetak / Save PDF
+          </button>
+          <button onclick="AdminController.closePrintModal()" class="text-gray-500 hover:text-gray-800 p-1 cursor-pointer"><span class="material-symbols-outlined">close</span></button>
+        </div>
+      </div>
+      <div id="printable-surat" class="w-full">
+        <!-- Rendered dynamically by PrintView.renderSurat(item) -->
+      </div>
+    </div>
+  </div>
+
   <!-- MVC MODULAR JAVASCRIPT ARCHITECTURE -->
   <script src="js/config.js"></script>
   <script src="js/models/ApiModel.js"></script>
@@ -861,6 +918,21 @@
     window.updateUMKMStatusAdmin = (id, status) => AdminController.updateUMKMStatus(id, status);
     window.updateSuratStatusAdmin = (id, status) => AdminController.updateSuratStatus(id, status);
     window.updateLaporanStatusAdmin = (id, status) => AdminController.updateLaporStatus(id, status);
+    window.closeWaSuccessModal = () => AppController.closeWaSuccessModal();
+    window.openPrintSurat = (id) => AdminController.openPrintSurat(id);
+    window.closePrintModal = () => AdminController.closePrintModal();
+    window.executePrintSurat = () => AdminController.executePrintSurat();
+
+    // PWA SERVICE WORKER REGISTRATION
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          console.log('[PWA]: ServiceWorker registered with scope:', reg.scope);
+        }).catch((err) => {
+          console.warn('[PWA]: ServiceWorker registration failed:', err);
+        });
+      });
+    }
   </script>
 
 </body>
