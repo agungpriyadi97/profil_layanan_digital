@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentasi & Spesifikasi Fitur - Portal RW 01 Bencongan Indah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+            }
+            .print-card {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+                break-inside: avoid;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+    <!-- Header Action Bar (Diabaikan saat Print/Save PDF) -->
+    <div class="max-w-4xl mx-auto mb-6 no-print flex flex-col sm:flex-row items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-slate-200 gap-4">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xl">
+                📄
+            </div>
+            <div>
+                <h1 class="font-bold text-slate-800 text-lg">Dokumen Siap Cetak / Export PDF</h1>
+                <p class="text-xs text-slate-500">Klik tombol di kanan untuk mengunduh versi PDF atau mencetak langsung.</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="window.print()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-95 transition text-white font-semibold rounded-lg shadow-md flex items-center gap-2 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Cetak / Simpan ke PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Container Dokumen PDF -->
+    <main class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 p-8 sm:p-12 print-card">
+        
+        <!-- Header Dokumen / Kop -->
+        <header class="border-b-2 border-slate-800 pb-6 mb-8 flex items-center justify-between">
+            <div>
+                <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 font-bold text-xs rounded-full uppercase tracking-wider mb-2">Laporan Resmi Client</span>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Dokumentasi Fitur & Spesifikasi</h1>
+                <p class="text-base text-slate-600 font-medium mt-1">Portal Layanan Digital RW 01 Bencongan Indah</p>
+            </div>
+            <div class="text-right hidden sm:block">
+                <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Tanggal & Versi</p>
+                <p class="text-sm font-bold text-slate-700">Oktober 2026</p>
+                <p class="text-xs text-emerald-600 font-bold mt-1">v2.0 (MVC Architecture)</p>
+            </div>
+        </header>
+
+        <!-- Ringkasan Eksekutif -->
+        <section class="mb-8 bg-slate-50 rounded-xl p-5 border border-slate-200">
+            <h2 class="text-base font-bold text-slate-800 mb-2 flex items-center gap-2">
+                <span class="text-blue-600">📌</span> Ringkasan Sistem
+            </h2>
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Website <strong>Portal Layanan Digital RW 01 Bencongan Indah</strong> dirancang khusus sebagai solusi pelayanan publik tingkat RW yang ramah pengguna, modern, dan sangat hemat biaya. Seluruh data warga terintegrasi secara langsung dengan <strong>Google Sheets</strong> dan <strong>Google Drive</strong> tanpa memerlukan server database berbayar, memberikan efisiensi tinggi bagi pengurus RW.
+            </p>
+        </section>
+
+        <!-- Table of Features -->
+        <section class="space-y-6">
+            <h2 class="text-lg font-extrabold text-slate-900 pb-2 border-b border-slate-200">
+                📋 Breakdown Seluruh Fitur Utama
+            </h2>
+
+            <!-- Fitur 1 -->
+            <div class="border border-slate-200 rounded-xl p-5 hover:border-blue-300 transition print-card">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-bold text-blue-900 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">1</span>
+                        Layanan Aspirasi & Pengaduan Warga
+                    </h3>
+                    <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">Integrasi Google Sheets</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="font-bold text-slate-700 mb-1">⚙️ Fungsi & Cara Kerja:</p>
+                        <p class="text-slate-600 leading-relaxed">Warga mengisi formulir pengaduan (Nama, RT, Kategori, Deskripsi, Foto Bukti). Laporan langsung masuk ke database Google Sheets admin dan mengirimkan notifikasi. Admin RW dapat memperbarui status penanganan secara berkala.</p>
+                    </div>
+                    <div class="bg-blue-50/50 p-3 rounded-lg border border-blue-100">
+                        <p class="font-bold text-blue-900 mb-1">💡 Manfaat Nyata:</p>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li><strong>Warga:</strong> Keluhan tersampaikan resmi 24/7 dan terpantau statusnya.</li>
+                            <li><strong>Pengurus RW:</strong> Arsip rapi, tersusun otomatis, dan tidak tercecer di WhatsApp.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fitur 2 -->
+            <div class="border border-slate-200 rounded-xl p-5 hover:border-blue-300 transition print-card">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-bold text-blue-900 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">2</span>
+                        Pendaftaran UMKM Warga & Promosi Usaha
+                    </h3>
+                    <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 text-xs font-bold rounded-full">Upload Foto & Katalog</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="font-bold text-slate-700 mb-1">⚙️ Fungsi & Cara Kerja:</p>
+                        <p class="text-slate-600 leading-relaxed">Pelaku UMKM mendaftarkan usahanya melampirkan foto produk. Foto tersimpan otomatis di Google Drive dan terhubung ke Google Sheets, lalu dipublikasikan secara estetik di halaman katalog UMKM Warga.</p>
+                    </div>
+                    <div class="bg-blue-50/50 p-3 rounded-lg border border-blue-100">
+                        <p class="font-bold text-blue-900 mb-1">💡 Manfaat Nyata:</p>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li><strong>Warga UMKM:</strong> Promosi gratis ke seluruh tetangga & lingkungan RW.</li>
+                            <li><strong>Pengurus RW:</strong> Memiliki database UMKM aktif untuk pembinaan ekonomi lokal.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fitur 3 -->
+            <div class="border border-slate-200 rounded-xl p-5 hover:border-blue-300 transition print-card">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-bold text-blue-900 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">3</span>
+                        Permohonan Surat Pengantar Online
+                    </h3>
+                    <span class="px-2.5 py-0.5 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-full">Layanan Mandiri</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="font-bold text-slate-700 mb-1">⚙️ Fungsi & Cara Kerja:</p>
+                        <p class="text-slate-600 leading-relaxed">Warga yang membutuhkan Surat Pengantar (Domisili, SKTM, Pengurusan KK/KTP) mengisi form pengajuan. Pengurus mendapatkan rincian data secara instant untuk diproses.</p>
+                    </div>
+                    <div class="bg-blue-50/50 p-3 rounded-lg border border-blue-100">
+                        <p class="font-bold text-blue-900 mb-1">💡 Manfaat Nyata:</p>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li><strong>Warga:</strong> Bebas antre, formulir dapat diakses dari mana saja.</li>
+                            <li><strong>Pengurus RW:</strong> Pembuatan surat lebih cepat karena data sudah terkumpul rapi.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fitur 4 -->
+            <div class="border border-slate-200 rounded-xl p-5 hover:border-blue-300 transition print-card">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-bold text-blue-900 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">4</span>
+                        Admin Dashboard & Proteksi Status (Lock Action)
+                    </h3>
+                    <span class="px-2.5 py-0.5 bg-rose-100 text-rose-800 text-xs font-bold rounded-full">Fitur Keamanan Data</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="font-bold text-slate-700 mb-1">⚙️ Fungsi & Cara Kerja:</p>
+                        <p class="text-slate-600 leading-relaxed">Dashboard khusus pengurus untuk rekap laporan. Apabila pengurus mengabaikan atau menyelesaikan status menjadi <strong>"Selesai"</strong>, tombol aksi akan otomatis terkunci (<strong>🔒 Terkunci</strong>) agar tidak dapat terubah secara tidak sengaja.</p>
+                    </div>
+                    <div class="bg-blue-50/50 p-3 rounded-lg border border-blue-100">
+                        <p class="font-bold text-blue-900 mb-1">💡 Manfaat Nyata:</p>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1">
+                            <li><strong>Pengurus RW:</strong> Keamanan data terjamin, mencegah salah klik/modifikasi pada laporan yang sudah valid & tuntas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fitur 5 & 6 (Grid 2 Kolom) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="border border-slate-200 rounded-xl p-5 print-card">
+                    <h3 class="text-sm font-bold text-blue-900 mb-2 flex items-center gap-2">
+                        <span class="w-5 h-5 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">5</span>
+                        Informasi Profil & Pengumuman RW
+                    </h3>
+                    <p class="text-xs text-slate-600 mb-2">Menampilkan Visi Misi, struktur pengurus, serta papan pengumuman kegiatan warga secara up-to-date.</p>
+                    <div class="bg-slate-50 p-2.5 rounded text-xs text-slate-600">
+                        <strong>Manfaat:</strong> Informasi resmi terpusat, menghalau isu hoaks di lingkungan.
+                    </div>
+                </div>
+
+                <div class="border border-slate-200 rounded-xl p-5 print-card">
+                    <h3 class="text-sm font-bold text-blue-900 mb-2 flex items-center gap-2">
+                        <span class="w-5 h-5 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">6</span>
+                        Arsitektur MVC & Fast Mobile UI
+                    </h3>
+                    <p class="text-xs text-slate-600 mb-2">Dibuat dengan pola kode MVC yang rapi, tombol interaktif (hover state), dan desain 100% responsive HP.</p>
+                    <div class="bg-slate-50 p-2.5 rounded text-xs text-slate-600">
+                        <strong>Manfaat:</strong> Sangat ringan dibuka di HP warga, mudah dirawat & dikembangkan lagi.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Sign-off -->
+        <footer class="mt-12 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+            <div>
+                <p class="font-bold text-slate-700">Tim Pengembang Layanan Digital RW 01</p>
+                <p>Kelurahan Bencongan Indah, Tangerang</p>
+            </div>
+            <div class="text-right">
+                <p class="italic">Dokumen ini sah & siap diserahkan kepada pihak Klien / Pengurus RW.</p>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>

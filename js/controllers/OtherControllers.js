@@ -16,7 +16,7 @@ class SuratController {
     }
 
     btn.disabled = true;
-    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-lg" style="font-family:'Material Symbols Outlined'!important;">sync</span> Mengunggah Dokumen & Mengirim...`;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-lg">sync</span> Mengunggah Dokumen & Mengirim...`;
 
     const fileInput = document.getElementById('surat-file');
     const { file_data, file_name } = await ApiModel.readFileAsBase64(fileInput);
@@ -34,7 +34,7 @@ class SuratController {
 
     const res = await SuratModel.submit(payload);
     btn.disabled = false;
-    btn.innerHTML = `<span class="material-symbols-outlined text-lg" style="font-family:'Material Symbols Outlined'!important;">send</span> Kirim Permohonan Surat`;
+    btn.innerHTML = `<span class="material-symbols-outlined text-lg">send</span> Kirim Permohonan Surat`;
 
     if (res.success) {
       showToast(res.message, 'success');
@@ -55,7 +55,7 @@ class SuratController {
     }
 
     container.classList.remove('hidden');
-    container.innerHTML = `<div class="text-xs text-on-surface-variant flex items-center gap-1.5"><span class="material-symbols-outlined animate-spin text-sm" style="font-family:'Material Symbols Outlined'!important;">sync</span> Mencari data...</div>`;
+    container.innerHTML = `<div class="text-xs text-on-surface-variant flex items-center gap-1.5"><span class="material-symbols-outlined animate-spin text-sm">sync</span> Mencari data...</div>`;
 
     const res = await SuratModel.track(query);
     if (res.success && res.data && res.data.length > 0) {
@@ -71,7 +71,7 @@ class LaporController {
     e.preventDefault();
     const btn = document.getElementById('btn-submit-lapor');
     btn.disabled = true;
-    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-lg" style="font-family:'Material Symbols Outlined'!important;">sync</span> Mengunggah Foto & Mengirim...`;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-lg">sync</span> Mengunggah Foto & Mengirim...`;
 
     const fileInput = document.getElementById('lapor-file');
     const { file_data, file_name } = await ApiModel.readFileAsBase64(fileInput);
@@ -89,7 +89,7 @@ class LaporController {
 
     const res = await LaporModel.submit(payload);
     btn.disabled = false;
-    btn.innerHTML = `<span class="material-symbols-outlined text-lg" style="font-family:'Material Symbols Outlined'!important;">campaign</span> Kirim Laporan Warga`;
+    btn.innerHTML = `<span class="material-symbols-outlined text-lg">campaign</span> Kirim Laporan Warga`;
 
     if (res.success) {
       showToast(res.message, 'success');
@@ -115,7 +115,7 @@ class AdminController {
     e.preventDefault();
     const btn = document.getElementById('btn-login-admin');
     btn.disabled = true;
-    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-lg" style="font-family:'Material Symbols Outlined'!important;">sync</span> Memverifikasi...`;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-lg">sync</span> Memverifikasi...`;
 
     const payload = {
       username: document.getElementById('admin-user').value,
@@ -124,7 +124,7 @@ class AdminController {
 
     const res = await ApiModel.call('loginAdmin', payload);
     btn.disabled = false;
-    btn.innerHTML = `<span class="material-symbols-outlined text-lg" style="font-family:'Material Symbols Outlined'!important;">login</span> Masuk Dashboard Admin`;
+    btn.innerHTML = `<span class="material-symbols-outlined text-lg">login</span> Masuk Dashboard Admin`;
 
     if (res.success && res.user) {
       AdminController.loggedInUser = res.user;
@@ -192,7 +192,7 @@ class AdminController {
             <td class="p-3 text-right">
               ${isFinal ? `
                 <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 border border-slate-200/80 px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-xs select-none">
-                  <span class="material-symbols-outlined text-xs" style="font-family:'Material Symbols Outlined'!important;">lock</span> Selesai
+                  <span class="material-symbols-outlined text-xs">lock</span> Selesai
                 </span>
               ` : `
                 <div class="flex justify-end gap-1.5">
@@ -254,7 +254,7 @@ class AdminController {
             <td class="p-3 text-right">
               ${isFinal ? `
                 <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 border border-slate-200/80 px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-xs select-none">
-                  <span class="material-symbols-outlined text-xs" style="font-family:'Material Symbols Outlined'!important;">lock</span> Selesai
+                  <span class="material-symbols-outlined text-xs">lock</span> Selesai
                 </span>
               ` : `
                 <div class="flex justify-end gap-1.5">
@@ -369,7 +369,7 @@ class AdminController {
             <td class="p-3 text-right">
               ${isFinal ? `
                 <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 border border-slate-200/80 px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-xs select-none">
-                  <span class="material-symbols-outlined text-xs" style="font-family:'Material Symbols Outlined'!important;">lock</span> Terkunci (${item.status_verifikasi})
+                  <span class="material-symbols-outlined text-xs">lock</span> Terkunci (${item.status_verifikasi})
                 </span>
               ` : `
                 <div class="flex justify-end gap-1.5">

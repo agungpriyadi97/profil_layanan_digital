@@ -43,8 +43,8 @@ class UMKMView {
               <p class="text-xs text-on-surface-variant mt-0.5">Pemilik: <span class="font-semibold text-on-surface">${item.nama_pemilik}</span></p>
             </div>
             <p class="text-xs text-on-surface-variant leading-relaxed bg-surface p-3 rounded-xl border border-outline-variant/40 flex-1">${item.deskripsi_produk}</p>
-            <a href="${waUrl}" target="_blank" rel="noopener noreferrer" style="background-color: #006948 !important; color: #ffffff !important; font-weight: 700 !important; font-size: 13px !important; padding: 10px 16px !important; border-radius: 12px !important; display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; text-decoration: none !important; margin-top: auto !important; width: 100% !important; box-shadow: 0 2px 4px rgba(0,0,0,0.08) !important;">
-              <span class="material-symbols-outlined" style="font-family: 'Material Symbols Outlined' !important; font-size: 18px !important; vertical-align: middle !important;">shopping_cart</span>
+            <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-wa-style">
+              <span class="material-symbols-outlined icon-sm">shopping_cart</span>
               Order via WhatsApp
             </a>
           </div>

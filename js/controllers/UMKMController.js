@@ -41,7 +41,7 @@ class UMKMController {
     e.preventDefault();
     const btn = document.getElementById('btn-submit-umkm');
     btn.disabled = true;
-    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-sm" style="font-family:'Material Symbols Outlined'!important;">sync</span> Mengunggah Foto & Mengirim...`;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-sm">sync</span> Mengunggah Foto & Mengirim...`;
 
     const fileInput = document.getElementById('umkm-file');
     const { file_data, file_name } = await ApiModel.readFileAsBase64(fileInput);

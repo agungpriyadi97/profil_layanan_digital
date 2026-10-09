@@ -80,10 +80,10 @@ function showToast(message, type = "info") {
 
   toast.className = `pointer-events-auto p-4 rounded-xl flex items-start gap-3 transform transition-all duration-300 translate-y-5 opacity-0 ${bgColors[type] || bgColors.info}`;
   toast.innerHTML = `
-    <span class="material-symbols-outlined shrink-0 text-xl" style="font-family:'Material Symbols Outlined'!important;">${icons[type] || "info"}</span>
+    <span class="material-symbols-outlined shrink-0 text-xl">${icons[type] || "info"}</span>
     <div class="flex-1 text-sm font-medium leading-snug">${message}</div>
     <button onclick="this.parentElement.remove()" class="shrink-0 text-white/80 hover:text-white">
-      <span class="material-symbols-outlined text-lg" style="font-family:'Material Symbols Outlined'!important;">close</span>
+      <span class="material-symbols-outlined text-lg">close</span>
     </button>
   `;
 
